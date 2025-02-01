@@ -6,7 +6,7 @@
 trigger:
   branches:
     include:
-      - main
+      - master
       - QAbranch  # Adjust branch names as needed
 
 stages:
