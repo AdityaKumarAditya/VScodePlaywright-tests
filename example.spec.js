@@ -54,9 +54,9 @@ test('User is able to signup', async () => {
   const firstNameField = page.locator('input[name="firstname"]');
   const lastNameField = page.locator('input[name="lastname"]');
   const phoneNumberField = page.locator('input[name="phoneNumber"]');
-  await firstNameField.fill('Aditya');
+  await firstNameField.fill('Aaaaaaaaditya');
   await lastNameField.fill('Kumar');
-  await phoneNumberField.fill('1234567890');
+  await phoneNumberField.fill('122322323432434567890');
   const isNextStepButtonEnabled = await nextStepButton.isEnabled();
   expect(isNextStepButtonEnabled).toBeTruthy();
   await nextStepButton.click();
