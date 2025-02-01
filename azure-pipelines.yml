@@ -1,0 +1,25 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+  branches:
+    include:
+      - QAbranch  # Or the branch you want to trigger the pipeline
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - task: UseNode@2
+    inputs:
+      versionSpec: '16.x'
+      addToPath: true
+
+  - script: |
+      npm install -g playwright
+      npm install
+      npx playwright install
+      npx playwright test
+    displayName: 'Install dependencies and run Playwright tests'
