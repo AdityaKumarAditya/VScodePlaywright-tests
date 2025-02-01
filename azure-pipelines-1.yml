@@ -1,0 +1,44 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+  branches:
+    include:
+      - main
+      - QAbranch  # Adjust branch names as needed
+
+stages:
+- stage: Build
+  displayName: 'Build and Test'
+  jobs:
+  - job: BuildJob
+    displayName: 'Build and Run Tests'
+    pool:
+      vmImage: 'ubuntu-latest'  # Choose appropriate agent (windows-latest, ubuntu-latest, etc.)
+    steps:
+    - checkout: self  # Checkout the code from GitHub
+    - script: echo "Installing dependencies..."
+    - script: npm install  # Install dependencies
+    - script: echo "Running Playwright tests..."
+    - script: npx playwright test  # Run Playwright tests
+    - task: PublishBuildArtifacts@1
+      inputs:
+        artifactName: 'drop'  # Save build artifacts for deployment
+
+- stage: Deploy
+  displayName: 'Deploy to Environment'
+  dependsOn: Build  # Runs only if Build succeeds
+  condition: succeeded()
+  jobs:
+  - deployment: DeployJob
+    displayName: 'Deploy Application'
+    environment: 'Testing'  # Change to your environment name in Azure DevOps
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - script: echo "Deploying application..."
+          - script: echo "Deployment Successful!"
+
